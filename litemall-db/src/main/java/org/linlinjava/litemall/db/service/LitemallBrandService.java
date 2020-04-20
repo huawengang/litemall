@@ -76,4 +76,13 @@ public class LitemallBrandService {
         example.or().andDeletedEqualTo(false);
         return brandMapper.selectByExample(example);
     }
+
+    public long countBySupplierId(Integer supplierId) {
+        LitemallBrandExample example = new LitemallBrandExample();
+        LitemallBrandExample.Criteria criteria = example.createCriteria();
+        criteria.andSupplierIdEqualTo(supplierId);
+        criteria.andDeletedEqualTo(false);
+
+        return brandMapper.countByExample(example);
+    }
 }
