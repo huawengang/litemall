@@ -38,6 +38,8 @@ public class AdminGoodsService {
     @Autowired
     private LitemallBrandService brandService;
     @Autowired
+    private LitemallSupplierService supplierService;
+    @Autowired
     private LitemallCartService cartService;
     @Autowired
     private QCodeService qCodeService;
@@ -54,10 +56,10 @@ public class AdminGoodsService {
         if (StringUtils.isEmpty(name)) {
             return ResponseUtil.badArgument();
         }
-        String goodsSn = goods.getGoodsSn();
-        if (StringUtils.isEmpty(goodsSn)) {
-            return ResponseUtil.badArgument();
-        }
+//        String goodsSn = goods.getGoodsSn();
+//        if (StringUtils.isEmpty(goodsSn)) {
+//            return ResponseUtil.badArgument();
+//        }
         // 品牌商可以不设置，如果设置则需要验证品牌商存在
         Integer brandId = goods.getBrandId();
         if (brandId != null && brandId != 0) {
@@ -312,19 +314,19 @@ public class AdminGoodsService {
         }
 
         // http://element-cn.eleme.io/#/zh-CN/component/select
-        // 管理员设置“所属品牌商”
-        List<LitemallBrand> list = brandService.all();
-        List<Map<String, Object>> brandList = new ArrayList<>(l1CatList.size());
-        for (LitemallBrand brand : list) {
+        // 管理员设置“所属供应商”
+        List<LitemallSupplier> list = supplierService.all();
+        List<Map<String, Object>> supplierList = new ArrayList<>();
+        for (LitemallSupplier supplier : list) {
             Map<String, Object> b = new HashMap<>(2);
-            b.put("value", brand.getId());
-            b.put("label", brand.getName());
-            brandList.add(b);
+            b.put("value", supplier.getId());
+            b.put("label", supplier.getName());
+            supplierList.add(b);
         }
 
         Map<String, Object> data = new HashMap<>();
         data.put("categoryList", categoryList);
-        data.put("brandList", brandList);
+        data.put("supplierList", supplierList);
         return ResponseUtil.ok(data);
     }
 

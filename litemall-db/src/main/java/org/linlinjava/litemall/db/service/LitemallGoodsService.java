@@ -199,6 +199,8 @@ public class LitemallGoodsService {
         goods.setAddTime(LocalDateTime.now());
         goods.setUpdateTime(LocalDateTime.now());
         goodsMapper.insertSelective(goods);
+        goods.setGoodsSn(goods.getId() + "");
+        updateById(goods);
     }
 
     /**

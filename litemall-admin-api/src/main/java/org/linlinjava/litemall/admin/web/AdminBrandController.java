@@ -103,4 +103,10 @@ public class AdminBrandController {
         return ResponseUtil.ok();
     }
 
+    @GetMapping("/listBySupplier")
+    public Object listBySupplier(@NotNull Integer supplierId) {
+        List<LitemallBrand> brandList = brandService.brandListBySupplierId(supplierId);
+        return ResponseUtil.ok(brandList);
+    }
+
 }

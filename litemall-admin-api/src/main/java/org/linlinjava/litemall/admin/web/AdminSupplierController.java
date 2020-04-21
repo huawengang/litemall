@@ -53,7 +53,7 @@ public class AdminSupplierController {
 
         List<SupplierVo> list = new ArrayList<>();
         for (LitemallSupplier litemallSupplier : supplierList) {
-            long brandCount = brandService.countBySupplierId(litemallSupplier.getId());
+            long brandCount = brandService.brandListBySupplierId(litemallSupplier.getId()).size();
             SupplierVo supplierVo = new SupplierVo(litemallSupplier);
             supplierVo.setBrandCount(brandCount);
             list.add(supplierVo);
