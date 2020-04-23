@@ -5,6 +5,7 @@ import org.linlinjava.litemall.db.dao.LitemallGoodsMapper;
 import org.linlinjava.litemall.db.domain.LitemallGoods;
 import org.linlinjava.litemall.db.domain.LitemallGoods.Column;
 import org.linlinjava.litemall.db.domain.LitemallGoodsExample;
+import org.linlinjava.litemall.db.domain.extend.LitemallGoodsExtend;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -127,27 +128,11 @@ public class LitemallGoodsService {
         return goodsMapper.selectByExampleSelective(example, columns);
     }
 
-    public List<LitemallGoods> querySelective(Integer goodsId, String goodsSn, String name, Integer page, Integer size, String sort, String order) {
-        LitemallGoodsExample example = new LitemallGoodsExample();
-        LitemallGoodsExample.Criteria criteria = example.createCriteria();
-
-        if (goodsId != null) {
-            criteria.andIdEqualTo(goodsId);
-        }
-        if (!StringUtils.isEmpty(goodsSn)) {
-            criteria.andGoodsSnEqualTo(goodsSn);
-        }
-        if (!StringUtils.isEmpty(name)) {
-            criteria.andNameLike("%" + name + "%");
-        }
-        criteria.andDeletedEqualTo(false);
-
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
-        }
-
+    public List<LitemallGoodsExtend> querySelective(Integer goodsId, String goodsSn, String name, Integer page, Integer size, String sort, String order) {
         PageHelper.startPage(page, size);
-        return goodsMapper.selectByExampleWithBLOBs(example);
+
+        return goodsMapper.selectByCustomerCondition(goodsId, goodsSn, name, sort, order);
+
     }
 
     /**
@@ -259,4 +244,11 @@ public class LitemallGoodsService {
         example.or().andIdIn(Arrays.asList(ids)).andIsOnSaleEqualTo(true).andDeletedEqualTo(false);
         return goodsMapper.selectByExampleSelective(example, columns);
     }
+
+    public List<LitemallGoods> all() {
+        LitemallGoodsExample example = new LitemallGoodsExample();
+        example.or().andDeletedEqualTo(false);
+        return goodsMapper.selectByExample(example);
+    }
+
 }

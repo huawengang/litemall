@@ -6,14 +6,17 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.linlinjava.litemall.admin.annotation.RequiresPermissionsDesc;
 import org.linlinjava.litemall.admin.dto.GoodsAllinone;
 import org.linlinjava.litemall.admin.service.AdminGoodsService;
+import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
 import org.linlinjava.litemall.db.domain.LitemallGoods;
+import org.linlinjava.litemall.db.domain.LitemallSupplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/goods")
@@ -23,6 +26,13 @@ public class AdminGoodsController {
 
     @Autowired
     private AdminGoodsService adminGoodsService;
+
+    @RequiresPermissions("admin:goods:all")
+    @RequiresPermissionsDesc(menu = {"商品管理", "商品管理"}, button = "查询")
+    @GetMapping("/all")
+    public Object allGoods() {
+        return adminGoodsService.getAllGoods();
+    }
 
     /**
      * 查询商品

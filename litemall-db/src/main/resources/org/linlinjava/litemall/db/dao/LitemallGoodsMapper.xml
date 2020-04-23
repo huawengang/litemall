@@ -836,4 +836,51 @@
     update litemall_goods set deleted = 1
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByCustomerCondition" resultType="org.linlinjava.litemall.db.domain.extend.LitemallGoodsExtend">
+    SELECT
+    g.id AS id,
+    g.goods_sn AS goodsSn,
+    g.`name` AS `name`,
+    g.category_id AS categoryId,
+    g.supplier_id AS supplierId,
+    g.brand_id AS brandId,
+    g.gallery AS gallery,
+    g.keywords AS keywords,
+    g.brief AS brief,
+    g.is_on_sale AS isOnSale,
+    g.sort_order AS sortOrder,
+    g.pic_url AS picUrl,
+    g.share_url AS shareUrl,
+    g.is_new AS isNew,
+    g.is_hot AS isHot,
+    g.unit AS unit,
+    g.counter_price AS counterPrice,
+    g.cost_price AS costPrice,
+    g.retail_price AS retailPrice,
+    g.add_time AS `addTime`,
+    g.update_time AS updateTime,
+    g.deleted AS deleted,
+    s.`name` AS supplierName,
+    b.name AS brandName
+    FROM litemall_goods g
+    LEFT JOIN `litemall_supplier` s ON s.id = g.`supplier_id`
+    LEFT JOIN `litemall_brand` b ON b.id = g.`brand_id`
+    <where>
+      <if test="goodsId!=null and goodsId!=''">
+        AND g.id = #{goodsId}
+      </if>
+      <if test="goodsSn!=null and goodsSn!=''">
+        AND g.goods_sn LIKE
+        CONCAT(CONCAT('%',#{goodsSn}),'%')
+      </if>
+      <if test="name!=null and name!=''">
+        AND g.name LIKE
+        CONCAT(CONCAT('%',#{name}),'%')
+      </if>
+      AND g.deleted = 0
+    </where>
+    order by g.add_time desc
+  </select>
+
 </mapper>

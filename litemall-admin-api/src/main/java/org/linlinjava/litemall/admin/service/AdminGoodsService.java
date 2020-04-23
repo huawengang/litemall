@@ -7,6 +7,7 @@ import org.linlinjava.litemall.admin.vo.CatVo;
 import org.linlinjava.litemall.core.qcode.QCodeService;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.db.domain.*;
+import org.linlinjava.litemall.db.domain.extend.LitemallGoodsExtend;
 import org.linlinjava.litemall.db.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class AdminGoodsService {
 
     public Object list(Integer goodsId, String goodsSn, String name,
                        Integer page, Integer limit, String sort, String order) {
-        List<LitemallGoods> goodsList = goodsService.querySelective(goodsId, goodsSn, name, page, limit, sort, order);
+        List<LitemallGoodsExtend> goodsList = goodsService.querySelective(goodsId, goodsSn, name, page, limit, sort, order);
         return ResponseUtil.okList(goodsList);
     }
 
@@ -352,6 +353,12 @@ public class AdminGoodsService {
         data.put("categoryIds", categoryIds);
 
         return ResponseUtil.ok(data);
+    }
+
+    public Object getAllGoods() {
+        List<LitemallGoods> all = goodsService.all();
+
+        return ResponseUtil.ok(all);
     }
 
 }

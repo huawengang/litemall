@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.linlinjava.litemall.db.domain.LitemallGoods;
 import org.linlinjava.litemall.db.domain.LitemallGoodsExample;
+import org.linlinjava.litemall.db.domain.extend.LitemallGoodsExtend;
 
 public interface LitemallGoodsMapper {
     /**
@@ -181,4 +182,7 @@ public interface LitemallGoodsMapper {
      * @mbg.generated
      */
     int logicalDeleteByPrimaryKey(Integer id);
+
+    List<LitemallGoodsExtend> selectByCustomerCondition(@Param("goodsId") Integer goodsId, @Param("goodsSn") String goodsSn,
+                                                        @Param("name") String name, @Param("sort") String sort, @Param("order") String order);
 }
